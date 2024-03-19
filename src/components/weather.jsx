@@ -1,9 +1,11 @@
 import axios from 'axios'
 import React, { useState } from 'react';
 
+
 const Weather = () => {
 
   const [city, setCity] = useState("");
+  const [state, setState] = useState("");
   const [country, setCountry] = useState("");
   const [temp, setTemp] = useState("");
   const [min, setMin] = useState("");
@@ -36,6 +38,8 @@ const Weather = () => {
       url:`http://api.openweathermap.org/geo/1.0/direct?q=${city},${country}&appid=85d978259d59a3e72dcf14251e348607`
     }).then((res) =>{
       console.log(res.data);
+      setState(res.data[0].state);
+      setCountry(res.data[0].country);
       apiResponse(res.data[0].lat,res.data[0].lon);
     }).catch((err) =>{
       console.log(err);
@@ -46,10 +50,11 @@ const Weather = () => {
     <div  className="container my-4">
     <h1>Aplicacion del Clima</h1>
       <input className='mx-1 p-1' type="text" value={city} onChange={(e) => setCity(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1))}  placeholder='Ciudad'/>
-      <input className='mx-1 p-1' type="text" value={country} onChange={(e) => setCountry(e.target.value.toUpperCase())} placeholder='Pais'  />
-      <button onClick={() => getWeatherData(city,country)} className='btn btn-primary'>Obtener Clima</button>
-     <div className="data_container p-4 my-5">
-     <h1>{city}, {country}</h1>
+      <input className='mx-1 p-1' type="text"  onChange={(e) => setCountry(e.target.value.toUpperCase())} placeholder='Pais'  />
+      <button style={{backgroundColor:"#51456a", fontWeght:"bold",fontSize:20,border:0}} onClick={() => getWeatherData(city,country)} className='btn btn-primary'>Obtener Clima</button>
+      {mostrarComponente ?(
+      <div className="data_container p-4 my-5">
+     <h1>{city}, {state} - {country}</h1>
      <div className="my-2">
         <img src={`https://openweathermap.org/img/wn/${icon}@2x.png`} alt="icono-clima" />
      </div>
@@ -58,7 +63,9 @@ const Weather = () => {
           Min:<span>{Math.floor(min)}</span><span className="mx-3">|</span> Max:<span>{Math.floor(max)}</span>
         </h4>
         {descripcion ? (<h1>{descripcion.charAt(0).toUpperCase() + descripcion.slice(1)}</h1>) : null}
+        <h4 className="my-4">Fecha: {new Date().toLocaleDateString('es-ES', {day: '2-digit', month: '2-digit', year: 'numeric'})}</h4>
      </div>
+    ) : null}
     </div>
 
   );

@@ -1,0 +1,23 @@
+body{
+    color: aliceblue;
+    text-align: center;
+    margin: 0 auto;
+    background-color: rgb(63, 62, 62);
+    align-items: center;
+    justify-content: center;
+}
+
+.data_container{
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    width: 60%;
+    margin: 0 auto;
+    color: aliceblue;
+    background-color: rgba(128,164,252,0.4);
+}
+
+.container>button{
+    margin-top: 20px;
+}
